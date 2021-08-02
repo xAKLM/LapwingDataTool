@@ -1,35 +1,16 @@
-import os as os
 import sys as sys
-from visualiser import App
-
-
-DATA_PATH = "data"
+from gui import App
 
 
 def main():
-    print("Enter command")
-    while True:
-        command_line = input().split(" ")
-        command = command_line[0]
-
-        if command == "clean":
-            pass
-
-        elif command == "visual":
-            app = App()
-            app.mainloop()
-
-        elif command == "data":
-            files = os.listdir(DATA_PATH)
-            print("Available data:")
-            for name in files:
-                print(name)
-
-        elif command == "exit":
-            sys.exit(0)
-
-        else:
-            print("Command not recognised")
+    try:
+        app = App()
+        app.mainloop()
+    except:
+        print(sys.exc_info())
+        input()
+        sys.exit(-1)
+    sys.exit(0)
 
 
 if __name__ == '__main__':

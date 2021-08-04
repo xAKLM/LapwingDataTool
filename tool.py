@@ -1,30 +1,25 @@
 import os as os
-import csv as csv
-import numpy as np
-
+import pandas as pd
 
 DATA_PATH = "data"
-CSV_DELIMITER = ','
+
+
+"""A class manager for a specific CSV data set."""
 
 
 class Tool:
-    def __init__(self):
+    def __init__(self, filename):
+        self._df = pd.read_csv(os.path.join(DATA_PATH, filename))
+
+    """Reads the CSV file of the given filename and returns the pandas.DataFrame."""
+    def get_data(self):
+        return self._df
+
+    """Returns None if the time coloumn in the CSV file is consistent.
+    Returns a list of timestamps and its corresponding indexes if faults are found."""
+    def check_timestamp(self):
         pass
 
-    @staticmethod
-    def get_data(filename):
-        # file = open(os.path.join(DATA_PATH, filename))
-        # data = np.loadtxt(os.path.join(DATA_PATH, filename), delimiter=CSV_DELIMITER)
-        d = open(os.path.join(DATA_PATH, filename), 'r')
-        dre = csv.reader(d, delimiter=',')
-        temp = []
-        a = 1
-        for row in dre:
-            if a == 1:
-                a += 1
-            elif a == 2:
-                a = 0
-            else:
-                temp.append(row[1])
-
-        return temp
+    """Returns a list of tuples for each outlier with its corresponding timestamp."""
+    def get_outliers(self, data_type):
+        pass

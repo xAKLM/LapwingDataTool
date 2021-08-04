@@ -2,7 +2,7 @@ import os as os
 import pandas as pd
 
 DATA_PATH = "data"
-
+gg = "gg"
 
 """A class manager for a specific CSV data set."""
 

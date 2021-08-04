@@ -21,8 +21,7 @@ class App(tk.Tk):
         self._mFrame.place(anchor=tk.SE, relx=1, rely=1, relheight=1, relwidth=1 - vFRAME_relW)
         self._vFrame.place(anchor=tk.NW, relx=0, rely=0, relheight=1, relwidth=vFRAME_relW)
 
-        self._df = Tool.get_data("arty-primary.csv")
-        self.temp()
+
 
     def temp(self):
         print(self._df.to_string())

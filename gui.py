@@ -15,39 +15,43 @@ class App(tk.Tk):
         super().__init__()
         self.title(TITLE)
         self.geometry(RESOLUTION)
-        self.iconphoto(True, tk.PhotoImage(file="sprites/rocket.png"))
 
+        # Initialise components
         self._mFrame = tk.Frame(self)
         self._vFrame = tk.Frame(self)
+        self._tool = tl.Tool("arty-primary.csv")
+        self._text = tk.Text(self._vFrame)
 
         self._mFrame.place(anchor=tk.SE, relx=1, rely=1, relheight=1, relwidth=1 - vFRAME_relW)
         self._vFrame.place(anchor=tk.NW, relx=0, rely=0, relheight=1, relwidth=vFRAME_relW)
-
-        self._tool = tl.Tool("arty-primary.csv")
-
-        #self._txtVar = tk.StringVar()
-        self._txt = tk.Text(self._vFrame)
-        self._txt.pack(expand=True, fill=tk.BOTH)
+        self._text.pack(expand=True, fill=tk.BOTH)
 
         self._btn = tk.Button(self._mFrame, text="TEST", command=self.temp)
         self._btn.pack()
         self.load_data()
 
     def temp(self):
-        stf = self._tool.get_outliers("Altitude")
-        self.replace(stf)
-        print("yo")
+        try:
+            stf = self._tool.get_outliers("Altitude")
+            self.replace(stf)
+            print("yo")
+        except:
+            self.handle_error()
 
     def load_data(self):
         try:
             dfstr = self._tool.get_data().to_string()
             self.replace(dfstr)
         except:
-            alert.showerror("Error", sys.exc_info())
+            self.handle_error()
 
     def init_vFrame(self):
         pass
 
     def replace(self, txt):
-        self._txt.delete(1.0, "end")
-        self._txt.insert(1.0, txt)
+        self._text.delete(1.0, "end")
+        self._text.insert(1.0, txt)
+
+    @staticmethod
+    def handle_error():
+        alert.showerror("Error", sys.exc_info())

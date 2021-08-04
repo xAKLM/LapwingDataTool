@@ -1,7 +1,8 @@
-import numpy as np
-import pandas as pd
+import sys
+import time
 import tkinter as tk
-from tool import Tool
+import tkinter.messagebox as alert
+import tool as tl
 
 
 TITLE = "Lapwing Data Tool"
@@ -14,24 +15,39 @@ class App(tk.Tk):
         super().__init__()
         self.title(TITLE)
         self.geometry(RESOLUTION)
+        self.iconphoto(True, tk.PhotoImage(file="sprites/rocket.png"))
 
-        self._mFrame = tk.Frame(self, bg='red')  # TODO: remove bg colours after testing
-        self._vFrame = tk.Frame(self, bg='green')
+        self._mFrame = tk.Frame(self)
+        self._vFrame = tk.Frame(self)
 
         self._mFrame.place(anchor=tk.SE, relx=1, rely=1, relheight=1, relwidth=1 - vFRAME_relW)
         self._vFrame.place(anchor=tk.NW, relx=0, rely=0, relheight=1, relwidth=vFRAME_relW)
 
-        self._df = Tool.get_data("arty-primary.csv")
-        self.temp()
+        self._tool = tl.Tool("arty-primary.csv")
+
+        #self._txtVar = tk.StringVar()
+        self._txt = tk.Text(self._vFrame)
+        self._txt.pack(expand=True, fill=tk.BOTH)
+
+        self._btn = tk.Button(self._mFrame, text="TEST", command=self.temp)
+        self._btn.pack()
+        self.load_data()
 
     def temp(self):
-        print(self._df.to_string())
+        stf = self._tool.get_outliers("Altitude")
+        self.replace(stf)
+        print("yo")
 
-    def init_rocket(self):
+    def load_data(self):
+        try:
+            dfstr = self._tool.get_data().to_string()
+            self.replace(dfstr)
+        except:
+            alert.showerror("Error", sys.exc_info())
+
+    def init_vFrame(self):
         pass
 
-    def init_menu(self):
-        pass
-
-    def plot(self):
-        pass
+    def replace(self, txt):
+        self._txt.delete(1.0, "end")
+        self._txt.insert(1.0, txt)

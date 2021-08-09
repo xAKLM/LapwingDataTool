@@ -54,8 +54,9 @@ class App(tk.Tk):
             return
         line = command[1:]
         if line == "asd":
-            self.replace_text(self._tool.get_outliers("altitude"))
-        self.replace_text(line)
+            self.replace_text(self._tool.get_outliers("Altitude"))
+        else:
+            self.replace_text(line)
 
     def replace_text(self, text):
         try:
